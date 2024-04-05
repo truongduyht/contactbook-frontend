@@ -31,7 +31,7 @@
       <ErrorMessage name="address" class="error-feedback" />
     </div>
     <div class="form-group">
-      <label for="phone">Điện thoại</label>
+      <label for="phone">Điên thoại</label>
       <Field
         name="phone"
         type="tel"
@@ -40,7 +40,7 @@
       />
       <ErrorMessage name="phone" class="error-feedback" />
     </div>
-    <div class="form-group form-check">
+    <div class="form-group">
       <input
         name="favorite"
         type="checkbox"
@@ -52,11 +52,12 @@
       </label>
     </div>
     <div class="form-group">
-      <button class="btn btn-primary">Lưu</button>
+      <button class="btn btn-primary" v-if="contactLocal._id">Lưu</button>
+      <button class="btn btn-primary" v-else>Create</button>
       <button
+        class="ml-2 btn btn-danger"
         v-if="contactLocal._id"
         type="button"
-        class="ml-2 btn btn-danger"
         @click="deleteContact"
       >
         Xóa
@@ -64,9 +65,11 @@
     </div>
   </Form>
 </template>
+
 <script>
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
+
 export default {
   components: {
     Form,
@@ -82,7 +85,7 @@ export default {
       name: yup
         .string()
         .required("Tên phải có giá trị.")
-        .min(2, "Tên phải ít nhất 2 ký tự.")
+        .min(2, "Tên phải có ít nhất 2 ký tự.")
         .max(50, "Tên có nhiều nhất 50 ký tự."),
       email: yup
         .string()
@@ -97,8 +100,6 @@ export default {
         ),
     });
     return {
-      // Chúng ta sẽ không muốn hiệu chỉnh props, nên tạo biến cục bộ
-      // contactLocal để liên kết với các input trên form
       contactLocal: this.contact,
       contactFormSchema,
     };
@@ -113,6 +114,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 @import "@/assets/form.css";
 </style>
